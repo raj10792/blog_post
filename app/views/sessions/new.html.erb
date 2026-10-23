@@ -1,0 +1,34 @@
+<div class="mx-auto w-full max-w-md">
+  <div class="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm sm:p-10">
+    <div class="mb-8 text-center">
+      <p class="text-sm font-semibold uppercase tracking-widest text-indigo-600">Welcome back</p>
+      <h1 class="mt-2 text-3xl font-bold tracking-tight text-slate-900">Sign in to your account</h1>
+      <p class="mt-2 text-sm text-slate-500">Pick up where your latest ideas left off.</p>
+    </div>
+
+    <% if flash[:alert] || flash[:notice] %>
+      <div class="mb-5 rounded-lg <%= flash[:alert] ? 'bg-rose-50 text-rose-700' : 'bg-emerald-50 text-emerald-700' %> px-4 py-3 text-sm" role="status">
+        <%= flash[:alert] || flash[:notice] %>
+      </div>
+    <% end %>
+
+    <%= form_with url: session_path, class: "space-y-5" do |form| %>
+      <div>
+        <%= form.label :email_address, "Email address", class: "mb-1.5 block text-sm font-medium text-slate-700" %>
+        <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", value: params[:email_address], class: "block w-full rounded-lg border border-slate-300 px-3 py-2.5 text-slate-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200" %>
+      </div>
+      <div>
+        <div class="mb-1.5 flex items-center justify-between">
+          <%= form.label :password, class: "block text-sm font-medium text-slate-700" %>
+          <%= link_to "Forgot password?", new_password_path, class: "text-sm font-medium text-indigo-600 hover:text-indigo-700" %>
+        </div>
+        <%= form.password_field :password, required: true, autocomplete: "current-password", maxlength: 72, class: "block w-full rounded-lg border border-slate-300 px-3 py-2.5 text-slate-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200" %>
+      </div>
+      <%= form.submit "Sign in", class: "w-full cursor-pointer rounded-lg bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" %>
+    <% end %>
+    <p class="mt-6 text-center text-sm text-slate-600">
+      New to Blog Post?
+      <%= link_to "Create an account", new_registration_path, class: "font-semibold text-indigo-600 hover:text-indigo-700" %>
+    </p>
+  </div>
+</div>

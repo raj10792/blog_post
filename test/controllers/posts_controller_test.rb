@@ -3,11 +3,20 @@ require "test_helper"
 class PostsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @post = posts(:one)
+    sign_in_as(users(:one))
   end
 
   test "should get index" do
     get posts_url
     assert_response :success
+  end
+
+  test "requires authentication" do
+    sign_out
+
+    get posts_url
+
+    assert_redirected_to new_session_url
   end
 
   test "should get new" do
