@@ -1,0 +1,40 @@
+<div class="mx-auto w-full max-w-md">
+  <div class="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm sm:p-10">
+    <div class="mb-8 text-center">
+      <p class="text-sm font-semibold uppercase tracking-widest text-indigo-600">Join the conversation</p>
+      <h1 class="mt-2 text-3xl font-bold tracking-tight text-slate-900">Create your account</h1>
+      <p class="mt-2 text-sm text-slate-500">Start sharing your ideas with the community.</p>
+    </div>
+
+    <% if @user.errors.any? %>
+      <div class="mb-5 rounded-lg bg-rose-50 px-4 py-3 text-sm text-rose-700" role="alert">
+        <p class="font-semibold">Please check the details below.</p>
+        <ul class="mt-1 list-inside list-disc">
+          <% @user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= form_with model: @user, url: registration_path, class: "space-y-5" do |form| %>
+      <div>
+        <%= form.label :email_address, "Email address", class: "mb-1.5 block text-sm font-medium text-slate-700" %>
+        <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "email", class: "block w-full rounded-lg border border-slate-300 px-3 py-2.5 text-slate-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200" %>
+      </div>
+      <div>
+        <%= form.label :password, "Password", class: "mb-1.5 block text-sm font-medium text-slate-700" %>
+        <%= form.password_field :password, required: true, autocomplete: "new-password", maxlength: 72, class: "block w-full rounded-lg border border-slate-300 px-3 py-2.5 text-slate-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200" %>
+      </div>
+      <div>
+        <%= form.label :password_confirmation, "Confirm password", class: "mb-1.5 block text-sm font-medium text-slate-700" %>
+        <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", maxlength: 72, class: "block w-full rounded-lg border border-slate-300 px-3 py-2.5 text-slate-900 shadow-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200" %>
+      </div>
+      <%= form.submit "Create account", class: "w-full cursor-pointer rounded-lg bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" %>
+    <% end %>
+    <p class="mt-6 text-center text-sm text-slate-600">
+      Already have an account?
+      <%= link_to "Sign in", new_session_path, class: "font-semibold text-indigo-600 hover:text-indigo-700" %>
+    </p>
+  </div>
+</div>

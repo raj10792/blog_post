@@ -20,10 +20,27 @@
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="min-h-screen bg-slate-50 text-slate-900 antialiased">
+    <header class="border-b border-slate-200 bg-white">
+      <nav class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <%= link_to "Blog Post", root_path, class: "text-xl font-bold tracking-tight text-indigo-700" %>
+        <div class="flex items-center gap-3 text-sm font-medium">
+          <% if authenticated? %>
+            <span class="hidden text-slate-600 sm:inline"><%= Current.user.email_address %></span>
+            <%= button_to "Sign out", session_path, method: :delete, class: "rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100" %>
+          <% else %>
+            <%= link_to "Sign in", new_session_path, class: "rounded-lg px-3 py-2 text-slate-700 hover:bg-slate-100" %>
+            <%= link_to "Create account", new_registration_path, class: "rounded-lg bg-indigo-600 px-4 py-2 text-white shadow-sm hover:bg-indigo-700" %>
+          <% end %>
+        </div>
+      </nav>
+    </header>
+    <main class="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <%= yield %>
+    </main>
   </body>
 </html>
