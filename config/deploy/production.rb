@@ -17,9 +17,9 @@
 # property set. Specify the username and a domain or IP for the server.
 # Don't use `:all`, it's a meta role.
 
-role :app, %w{rajkumar@89.167.124.237}#, my_property: :my_value
-role :web, %w{rajkumar@89.167.124.237}#, other_property: :other_value
-role :db,  %w{rajkumar@89.167.124.237}
+role :app, %w[rajkumar@89.167.124.237]# , my_property: :my_value
+role :web, %w[rajkumar@89.167.124.237]# , other_property: :other_value
+role :db,  %w[rajkumar@89.167.124.237]
 
 
 
@@ -49,14 +49,14 @@ role :db,  %w{rajkumar@89.167.124.237}
 #
 # The server-based syntax can be used to override options:
 # ------------------------------------
-server '89.167.124.237',
-  user: 'rajkumar',
-  roles: %w{web app},
+server "89.167.124.237",
+  user: "rajkumar",
+  roles: %w[web app],
   ssh_options: {
-    user: 'rajkumar', # overrides user setting above
-    keys: %w(/home/rajkumar/.ssh/id_rsa),
+    user: "rajkumar", # overrides user setting above
+    keys: %w[/home/rajkumar/.ssh/id_rsa],
     forward_agent: false,
-    auth_methods: %w(publickey password),
+    auth_methods: %w[publickey password],
     password: "please use keys"
   }
 set :branch, "main"
