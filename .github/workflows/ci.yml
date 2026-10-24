@@ -7,22 +7,26 @@ on:
 
 jobs:
   scan_ruby:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest #Each job runs on a fresh GitHub-hosted Ubuntu machine
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v6 #Pulls your repository code into the runner.
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@v1 #nstalls Ruby version from your project.
         with:
-          bundler-cache: true
+          bundler-cache: true #Caches Ruby gems automatically to speed up repeat runs.
 
       - name: Scan for common Rails security vulnerabilities using static analysis
         run: bin/brakeman --no-pager
+        #Brakeman is a Ruby static analyzer specifically for Rails apps.
+        #It scans for common Rails security problems like mass assignment, SQL injection, unsafe redirects, etc.
       
       - name: Scan for known security vulnerabilities in gems used
         run: bin/bundler-audit
+        #Checks the gems you are using against known vulnerabilities.
+        #Useful for dependency security monitoring.
       
   scan_js:
     runs-on: ubuntu-latest
@@ -38,11 +42,13 @@ jobs:
 
       - name: Scan for security vulnerabilities in JavaScript dependencies
         run: bin/importmap audit
-
+        #This is likely a custom script or gem that audits JavaScript package/dependency security for an importmap-based Rails app.
+        #It scans used frontend packages for known vulnerabilities
   lint:
     runs-on: ubuntu-latest
     env:
       RUBOCOP_CACHE_ROOT: tmp/rubocop
+      #Sets a folder for RuboCop’s cache.
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
@@ -53,31 +59,36 @@ jobs:
           bundler-cache: true
 
       - name: Prepare RuboCop cache
-        uses: actions/cache@v4
+        uses: actions/cache@v4 #Caches rubocop results to make future runs faster.
         env:
           DEPENDENCIES_HASH: ${{ hashFiles('.ruby-version', '**/.rubocop.yml', '**/.rubocop_todo.yml', 'Gemfile.lock') }}
+          #This ensures cache is invalidated if Ruby version or lint rules change.
         with:
           path: ${{ env.RUBOCOP_CACHE_ROOT }}
           key: rubocop-${{ runner.os }}-${{ env.DEPENDENCIES_HASH }}-${{ github.ref_name == github.event.repository.default_branch && github.run_id || 'default' }}
           restore-keys: |
             rubocop-${{ runner.os }}-${{ env.DEPENDENCIES_HASH }}-
+          #This is a dynamic cache key.
+          #It keeps different caches for different branches/default branch conditions.
 
       - name: Lint code for consistent style
-        run: bin/rubocop -f github
+        run: bin/rubocop -f github #Runs style/lint checks.
 
   test:
     runs-on: ubuntu-latest
 
     services:
-      postgres:
-        image: postgres
+      postgres: #This starts a PostgreSQL container alongside the runner.
+        image: postgres #pulls the official Postgres Docker image
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
+          #Creates a database user/password.
         ports:
-          - 5432:5432
+          - 5432:5432 #Exposes the database port to the runner.
         options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
-
+        #Waits for DB readiness before continuing.
+        #This prevents tests from starting before the database is actually accepting connections.
       # redis:
       #   image: valkey/valkey:8
       #   ports:
@@ -100,6 +111,7 @@ jobs:
         env:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:postgres@localhost:5432
+          #Probably because the environment variable is sensitive or redacted in the snippet.
           # RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
           # REDIS_URL: redis://localhost:6379/0
         run: bin/rails db:test:prepare test
@@ -150,3 +162,20 @@ jobs:
           name: screenshots
           path: ${{ github.workspace }}/tmp/screenshots
           if-no-files-found: ignore
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+      # - run: bundle install
+
+      - uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}                                                                                                                                          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - run: bundle exec cap production deploy
