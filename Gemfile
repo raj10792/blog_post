@@ -53,7 +53,7 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
-  #Now you can run ./bin/rubocop to check for compliance and ./bin/rubocop -a to automatically fix violations.
+  # Now you can run ./bin/rubocop to check for compliance and ./bin/rubocop -a to automatically fix violations.
 end
 
 group :development do
