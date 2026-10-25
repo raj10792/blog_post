@@ -108,6 +108,10 @@ GEM
     capistrano-rbenv (2.2.0)
       capistrano (~> 3.1)
       sshkit (~> 1.3)
+    capistrano-sidekiq (3.2.0)
+      capistrano (>= 3.9.0)
+      capistrano-bundler
+      sidekiq (>= 7.0)
     capybara (3.40.0)
       addressable
       matrix
@@ -424,6 +428,7 @@ DEPENDENCIES
   capistrano-passenger
   capistrano-rails (~> 1.6)
   capistrano-rbenv
+  capistrano-sidekiq
   capybara
   debug
   image_processing (~> 1.2)
@@ -478,6 +483,7 @@ CHECKSUMS
   capistrano-passenger (0.2.1) sha256=07a1d25edd5c1d909c19d4fe45fe2ea5f11200569f6967f6bff1d605ade98e13
   capistrano-rails (1.7.0) sha256=aca57455e8c5435785e0f938e16aa5b79c263694a755e1dca1c5d1743b40aae7
   capistrano-rbenv (2.2.0) sha256=3c8f39b7c624f3806630dcb475484bb3579aef07a40efe85089d83f64b0c35f5
+  capistrano-sidekiq (3.2.0) sha256=82cb56c6fa4452eaea92086a47dde53a2642f776291fe8661fc39cdb5f4946b3
   capybara (3.40.0) sha256=42dba720578ea1ca65fd7a41d163dd368502c191804558f6e0f71b391054aeef
   concurrent-ruby (1.3.8) sha256=b2f1be836e968ccc78ccfce277ea79c72a88633f22306782c16ff23fb415d1e1
   connection_pool (3.0.2) sha256=33fff5ba71a12d2aa26cb72b1db8bba2a1a01823559fb01d29eb74c286e62e0a

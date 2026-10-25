@@ -35,10 +35,13 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/syst
 # Default value for keep_releases is 5
 set :keep_releases, 1
 
+set :sidekiq_roles, [:app]
+set :sidekiq_default_hooks, true
+
 # Uncomment the following to require manually verifying the host key before first deploy.
 # set :ssh_options, verify_host_key: :secure
 
-append :linked_files, "config/master.key"
+append :linked_files, "config/master.key","config/credentials/production.key"
 
 namespace :deploy do
   namespace :check do
