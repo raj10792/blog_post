@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  require "sidekiq/web"
+  Rails.application.routes.draw do
+    mount Sidekiq::Web => "/sidekiq"
+  end
   resource :registration, only: %i[ new create ]
   resource :session, only: %i[ new create destroy ]
   resources :passwords, only: %i[ new create edit update ], param: :token
