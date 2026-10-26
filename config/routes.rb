@@ -1,8 +1,23 @@
 Rails.application.routes.draw do
   require "sidekiq/web"
-  Rails.application.routes.draw do
-    mount Sidekiq::Web => "/sidekiq"
+
+  if Rails.env.production?
+    Sidekiq::Web.use Rack::Auth::Basic do |username, password|
+      sidekiq_creds = Rails.application.credentials.sidekiq
+
+      ActiveSupport::SecurityUtils.secure_compare(
+        username,
+        sidekiq_creds[:username]
+      ) &
+      ActiveSupport::SecurityUtils.secure_compare(
+        password,
+        sidekiq_creds[:password]
+      )
+    end
   end
+
+  mount Sidekiq::Web => "/sidekiq"
+  
   resource :registration, only: %i[ new create ]
   resource :session, only: %i[ new create destroy ]
   resources :passwords, only: %i[ new create edit update ], param: :token
