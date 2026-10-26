@@ -51,7 +51,7 @@ role :db,  %w[rajkumar@89.167.124.237]
 # ------------------------------------
 server "89.167.124.237",
   user: "rajkumar",
-  roles: %w[web app],
+  roles: %w[web db app],
   ssh_options: {
     user: "rajkumar", # overrides user setting above
     keys: %w[/home/rajkumar/.ssh/id_rsa],

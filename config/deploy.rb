@@ -35,9 +35,6 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/syst
 # Default value for keep_releases is 5
 set :keep_releases, 1
 
-set :sidekiq_roles, [:app]
-set :sidekiq_default_hooks, true
-
 # Uncomment the following to require manually verifying the host key before first deploy.
 # set :ssh_options, verify_host_key: :secure
 
@@ -54,3 +51,16 @@ namespace :deploy do
     end
   end
 end
+
+set :sidekiq_roles, [:app]
+set :sidekiq_default_hooks, false
+
+namespace :sidekiq do
+  task :restart do
+    on roles(:app) do
+      execute :sudo, "-n", :systemctl, :restart, :sidekiq
+    end
+  end
+end
+
+after "deploy:published", "sidekiq:restart"
