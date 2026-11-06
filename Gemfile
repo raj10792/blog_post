@@ -74,3 +74,4 @@ group :test do
 end
 
 gem "sidekiq"
+gem "newrelic_rpm"
