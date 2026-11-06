@@ -89,7 +89,7 @@ test:
 production:
   primary: &primary_production
     <<: *default
-    host: host.docker.internal
+    host: 89.167.124.237
     database: blog_post_production
     username: postgres
     password: <%= ENV["BLOG_POST_DATABASE_PASSWORD"] %>
