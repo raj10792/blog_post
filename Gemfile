@@ -74,4 +74,5 @@ group :test do
 end
 
 gem "sidekiq"
+gem "redis", ">= 4.0.1"
 gem "newrelic_rpm"
