@@ -42,9 +42,8 @@ env:
     - RAILS_MASTER_KEY
     - BLOG_POST_DATABASE_PASSWORD
     - NEW_RELIC_LICENSE_KEY
+    - REDIS_URL
   clear:
-    REDIS_URL: redis://89.167.124.237:6379/0
-
     # Run the Solid Queue Supervisor inside the web server's Puma process to do jobs.
     # When you start using multiple servers, you should split out job processing to a dedicated machine.
     SOLID_QUEUE_IN_PUMA: true
@@ -99,7 +98,7 @@ ssh:
   user: rajkumar
 
 # Use accessory services (secrets come from .kamal/secrets).
-accessories:
+# accessories:
 #   db:
 #     image: mysql:8.0
 #     host: 192.168.0.2
@@ -115,9 +114,9 @@ accessories:
 #       - db/production.sql:/docker-entrypoint-initdb.d/setup.sql
 #     directories:
 #       - data:/var/lib/mysql
-  redis:
-    image: redis:7.4
-    host: 89.167.124.237
-    port: "6379:6379"
-    directories:
-      - data:/data
+  # redis:
+  #   image: redis:7.4
+  #   host: 89.167.124.237
+  #   port: "6379:6379"
+  #   directories:
+  #     - data:/data
